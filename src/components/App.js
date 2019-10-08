@@ -1,17 +1,20 @@
 import React from 'react';
-import './App.css'
-import {Link} from "react-router-dom";
+import { Grid } from "semantic-ui-react";
+import "./App.css"
+import ColorPanel from "./ColorPanel/ColorPanel";
+import SidePanel from "./SidePanel/SidePanel";
+import Messages from "./Messages/Messages";
+import MetaPanel from "./MetaPanel/MetaPanel";
 
-
-function App() {
+const  App = () => {
     return (
-        <div>
-            <p>Mormon Slack 2.1</p>
-            <Link to="/register">Need the undapants?</Link>
-            <br/>
-            <Link to="/login">Have the undapants?</Link>
-        </div>
-    );
-}
+    <Grid>
+        <ColorPanel/>
+        <SidePanel />
+        <Messages />
+        <MetaPanel />
+
+    </Grid>
+    )};
 
 export default App;
