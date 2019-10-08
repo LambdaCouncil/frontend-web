@@ -167,7 +167,7 @@ function Register() {
                         {displayErrors(errors)}
                     </Message>
                 )}
-                <Message>Why are you wearing undapants? <Link to="/login">Login</Link></Message>
+                <Message>Already have the undapants? <Link to="/login">Login</Link></Message>
             </Grid.Column>
         </Grid>
     )
