@@ -50,9 +50,7 @@ function Login() {
                     </Segment>
                 </Form>
                 <Message>Don't have the undapants? <Link to="/register">Register</Link></Message>
-
             </Grid.Column>
-
         </Grid>
     )
 }

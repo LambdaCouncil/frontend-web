@@ -80,12 +80,18 @@ function Register() {
     }
     };
 
+    const handleInputError = (errors, inputName) => {
+        return errors.some(error =>
+            error.message.toLocaleLowerCase().includes(inputName))
+            ? "error" : ""
+    };
+
     return (
         <Grid textAlign="center"
               verticalAlign="middle"
               className="app">
             <Grid.Column style={{ maxWidth: 450 }}>
-                <Header as="h1" icon color="greem"
+                <Header as="h1" icon color="green"
                         textAlign="center">
                     <Icon name="puzzle piece"
                           color="green"/>
@@ -106,6 +112,7 @@ function Register() {
                                     placeholder={"Email"}
                                     onChange={handleChangeEmail}
                                     value={email}
+                                    className={handleInputError(errors, 'email')}
                                     type="text"/>
                         <Form.Input fluid name="password"
                                     icon="lock"
@@ -113,6 +120,7 @@ function Register() {
                                     placeholder={"Password"}
                                     onChange={handleChangePassword}
                                     value={password}
+                                    className={handleInputError(errors, 'password')}
                                     type="password"/>
                         <Form.Input fluid name="passwordConfirm"
                                     icon="repeat"
@@ -120,6 +128,7 @@ function Register() {
                                     placeholder={"Confirm Password"}
                                     onChange={handleChangePasswordConfirm}
                                     value={passwordConfirm}
+                                    className={handleInputError(errors, 'password')}
                                     type="password"/>
                         <Button disabled={loading} className = {loading ? 'loading' : ''}
                             color="green" fluid size="large">Submit</Button>
