@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import firebase from "../../firebase";
 import { Grid, Form, Segment, Button, Header, Message, Icon} from 'semantic-ui-react';
 import { Link } from "react-router-dom";
+import md5 from 'md5';
 
 function Register() {
     const [userName, setUserName] = useState('');
@@ -10,23 +11,24 @@ function Register() {
     const [passwordConfirm, setPasswordConfirm] = useState('');
     const [errors, setErrors] = useState([]);
     const [loading, setLoading] = useState(false);
+    const [userRef, setUserRef] = useState(firebase.database().ref('users'));
 
 
     const handleChangeUser = (e) => {
        setUserName(e.target.value);
-        console.log('userName', userName)
+        // console.log('userName', userName)
     };
     const handleChangeEmail = (e) => {
         setEmail(e.target.value);
-        console.log('Email', email)
+        // console.log('Email', email)
     };
     const handleChangePassword = (e) => {
         setPassword(e.target.value);
-        console.log('password', password)
+        // console.log('password', password)
     };
     const handleChangePasswordConfirm = (e) => {
         setPasswordConfirm(e.target.value);
-        console.log('passwordConfirm', passwordConfirm)
+        // console.log('passwordConfirm', passwordConfirm)
     };
 
     const isFormValid = () => {
@@ -70,7 +72,21 @@ function Register() {
             .createUserWithEmailAndPassword(email, password)
             .then(createdUser => {
                 console.log('createdUser', createdUser);
-                setLoading(false);
+                createdUser.user.updateProfile({
+                    displayName: userName,
+                    photoURL: `http://gravatar.com/avatar/${md5(createdUser.user.email)}?d=identicon`
+                })
+                    .then(() => {
+                       saveUser(createdUser).then(() => {
+                           console.log("user saved");
+                           setLoading(false);
+                       })
+                    })
+                    .catch(err => {
+                        console.log(err);
+                        setErrors(errors.concat(err));
+                        setLoading(false);
+                    })
             })
             .catch(err => {
                 console.log(err);
@@ -78,6 +94,13 @@ function Register() {
                 setErrors((errors => errors.concat(err)));
             })
     }
+    };
+
+    const saveUser = (createdUser) => {
+        return userRef.child(createdUser.user.uid).set({
+            name: createdUser.user.displayName,
+            avatar: createdUser.user.photoURL
+        })
     };
 
     const handleInputError = (errors, inputName) => {
