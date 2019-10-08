@@ -10,7 +10,7 @@ import Login from "./components/Auth/Login";
 import { createStore } from "redux";
 import { Provider, connect } from "react-redux";
 import rootReducer from "./reducers";
-import { setUser } from "./actions";
+import { setUser, clearUser } from "./actions";
 import firebase from "./firebase";
 import { composeWithDevTools } from "redux-devtools-extension";
 const store = createStore(rootReducer, composeWithDevTools());
@@ -23,6 +23,9 @@ function Root(props) {
             if (user) {
                 props.setUser(user);
                 props.history.push('/');
+            } else {
+                props.history.push('/login');
+                props.clearUser();
             }
         })
     }, []);
@@ -42,7 +45,7 @@ function Root(props) {
     const RootWithAuth = withRouter(
         connect(
         mapStateToProps,
-        { setUser }
+        { setUser, clearUser }
         )(Root));
 
 ReactDOM.render(
