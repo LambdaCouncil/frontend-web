@@ -113,6 +113,7 @@ function Register() {
             ? "error" : ""
     };
 
+
     return (
         <Grid textAlign="center"
               verticalAlign="middle"
@@ -163,7 +164,7 @@ function Register() {
                 </Form>
                 {errors.length > 0 && (
                     <Message error>
-                        <h3>You have unconverted</h3>
+                        <h3>This is where the errors go</h3>
                         {displayErrors(errors)}
                     </Message>
                 )}

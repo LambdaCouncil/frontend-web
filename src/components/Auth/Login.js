@@ -30,6 +30,8 @@ function Login() {
                 .signInWithEmailAndPassword(email, password)
                 .then(signedInUser => {
                     console.log(signedInUser);
+                    setEmail('');
+                    setPassword('');
                 })
                 .catch(err => {
                     console.log(err);
