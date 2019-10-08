@@ -25,17 +25,23 @@ function Root(props) {
         })
     }, [])
 
-    return (
+    useEffect(() => {
+        firebase.auth().onAuthStateChanged(user => {
+            if (user) {
+                props.setUser(user);
+            }
+        })
+    }, [])
 
+    return (
         <Switch>
             <Route exact path="/" component={App}/>
             <Route path="/login" component={Login}/>
             <Route path="/register" component={Register}/>
         </Switch>
-
     )}
 
-const RootWithAuth = withRouter(connect(null, { setUser })(Root));
+    const RootWithAuth = withRouter(connect(null, { setUser })(Root));
 
 ReactDOM.render(
     <Provider store={store}>
@@ -44,4 +50,5 @@ ReactDOM.render(
         </Router>
     </Provider>
     , document.getElementById('root'));
+
 registerServiceWorker();
