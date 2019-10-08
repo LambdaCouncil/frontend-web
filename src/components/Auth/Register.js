@@ -80,6 +80,10 @@ function Register() {
                        saveUser(createdUser).then(() => {
                            console.log("user saved");
                            setLoading(false);
+                           setUserName("");
+                           setEmail("");
+                           setPassword("");
+                           setPasswordConfirm("");
                        })
                     })
                     .catch(err => {
