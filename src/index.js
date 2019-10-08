@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import ReactDOM from 'react-dom';
 import 'semantic-ui-css/semantic.css';
 import App from "./components/App";
@@ -12,13 +12,14 @@ import Register from "./components/Auth/Register";
 import Login from "./components/Auth/Login";
 
 function Root(props) {
+    const [user, setUser] = useState();
     useEffect(() => 
         firebase.auth().onAuthStateChanged(user => {
             if (user) {
                 props.history.push("/");
             }
         })
-    );
+    , []);
         return (
                 <Switch>
                     <Route exact path="/" component={App} />
