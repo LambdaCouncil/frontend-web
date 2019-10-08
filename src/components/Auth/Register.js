@@ -1,13 +1,13 @@
 import React, { useState } from 'react';
 import firebase from "../../firebase";
-import { Grid, Form, Segment, Button, Header, Message, Icon} from 'semantic-ui-react'
+import { Grid, Form, Segment, Button, Header, Message, Icon} from 'semantic-ui-react';
 import { Link } from "react-router-dom";
 
 function Register() {
     const [userName, setUserName] = useState('');
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
-    const [passwordConfirm, setPasswordConfirm] = useState('');
+    const [passwordConfirm, setPasswordConfirm] = useState('');;
 
     const handleChangeUser = (e) => {
        setUserName(e.target.value);
@@ -44,7 +44,7 @@ function Register() {
               verticalAlign="middle"
               className="app">
             <Grid.Column style={{ maxWidth: 450 }}>
-                <Header as="h2" icon color="green"
+                <Header as="h1" icon color="greem"
                         textAlign="center">
                     <Icon name="puzzle piece"
                           color="green"/>
