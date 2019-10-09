@@ -34,11 +34,6 @@ const UserPanel = (props) => {
           .then(() => console.log('Signed Out'))
     };
 
-    console.log(props.currentUser.displayName);
-    console.log(user.photoURL);
-
-
-
     return(
         <Grid style={{ background: '4c3c4c'}}>
               <Grid.Column>

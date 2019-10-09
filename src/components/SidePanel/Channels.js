@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { Menu, Icon, Modal, Form, Input, Button } from "semantic-ui-react";
 import firebase from '../../firebase'
 
@@ -10,9 +10,20 @@ const Channels = ({ currentUser }) => {
     const [channelName, setChannelName] = useState('');
     const [channelDetails, setChannelDetails] = useState('');
     const [channelsRef, setChannelsRef] = useState(firebase.database().ref('channels'));
-    const [user, setUser] = useState(currentUser)
+    const [user, setUser] = useState(currentUser);
 
+    useEffect(() => {
+        addListeners();
+    }, []);
 
+    const addListeners = () => {
+        let loadedChannels = [];
+        channelsRef.on('child_added', snap => {
+            loadedChannels.push(snap.val());
+            setChannels(loadedChannels);
+        })
+    };
+    
     const closeModal = () => {
         setModal(false)
     };
@@ -28,7 +39,6 @@ const Channels = ({ currentUser }) => {
     const handleChannelDetails = (e) => {
         setChannelDetails(e.target.value);
     };
-   
 
     const addChannel = () => {
         const key = channelsRef.push().key;
@@ -64,15 +74,32 @@ const Channels = ({ currentUser }) => {
 
     const isFormValid = () => channelName && channelDetails;
 
+    const displayChannels = channels => {
+        channels.length > 1
+        && channels.map(channel => (
+            <Menu.Item
+                key={channel.id}
+                onClick={() => console.log(channel)}
+                name={channel.name}
+                style={{ opacity: 0.7 }}
+            >
+                # {channel.name}
+            </Menu.Item>
+        ))
+    };
+    console.log('channels', channels);
+
     return (
         <React.Fragment>
         <Menu.Menu style={{ paddingBottom: '2em' }}>
             <Menu.Item>
                 <span>
                     <Icon name='exchange'/> CHANNELS
-                </span>{" "}
-                ({ channels.length }) <Icon name="add" onClick={openModal} style={{ cursor: 'pointer' }} />
+                </span>
+                {" "} ({ channels.length })
+                <Icon name="add" onClick={openModal} style={{ cursor: 'pointer' }} />
             </Menu.Item>
+            {displayChannels(channels)}
         </Menu.Menu>
 
         <Modal basic open={modal} onClose={closeModal}>
