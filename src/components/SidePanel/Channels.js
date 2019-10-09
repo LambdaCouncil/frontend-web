@@ -15,6 +15,7 @@ const Channels = ({ currentUser, setCurrentChannel }) => {
     const user = currentUser;
     const [barndon, setBarndon] = useState(false);
     const [firstLoad, setFirstLoad] = useState(true);
+    const [activeChannel, setActiveChannel] = useState('');
 
     const addListeners = () => {
         let loadedChannels = [];
@@ -26,14 +27,6 @@ const Channels = ({ currentUser, setCurrentChannel }) => {
             setFirstChannel();
             setBarndon(true);
         })
-    };
-
-    const setFirstChannel = () => {
-        const firstChannel = channels[0];
-        if (firstLoad && channels.length > 0) {
-            setCurrentChannel(firstChannel)
-      }
-        setFirstLoad(false)
     };
 
     useEffect(() => {
@@ -90,10 +83,6 @@ const Channels = ({ currentUser, setCurrentChannel }) => {
 
     const isFormValid = () => channelName && channelDetails;
 
-    const changeChannel = channel => {
-        setCurrentChannel(channel)
-};
-
     const displayChannels = channels => {
         return channels.length > 0
         && channels.map(channel => {
@@ -105,12 +94,27 @@ const Channels = ({ currentUser, setCurrentChannel }) => {
                 // onClick={() => console.log(channel)}
                 name={channel.name}
                 style={{ opacity: 1 }}
+                active={ channel.id === activeChannel }
             >
                 # {channel.name}
             </Menu.Item>
             )})
     };
-    console.log('channels', channels);
+
+    const setFirstChannel = () => {
+        const firstChannel = channels[0];
+        if (firstLoad && channels.length > 0) {
+            setCurrentChannel(firstChannel);
+            setActiveChannel(firstChannel)
+        }
+        setFirstLoad(false)
+    };
+
+    const changeChannel = channel => {
+        setActiveChannel(channel.id);
+        setCurrentChannel(channel);
+    };
+
 
     return (
         <React.Fragment>
