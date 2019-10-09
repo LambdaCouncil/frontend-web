@@ -20,10 +20,12 @@ const Channels = ({ currentUser }) => {
         let loadedChannels = [];
         channelsRef.on('child_added', snap => {
             loadedChannels.push(snap.val());
+            loadedChannels.length > 0 &&
+            console.log('loadedChannels', loadedChannels);
             setChannels(loadedChannels);
         })
     };
-    
+
     const closeModal = () => {
         setModal(false)
     };
@@ -75,7 +77,7 @@ const Channels = ({ currentUser }) => {
     const isFormValid = () => channelName && channelDetails;
 
     const displayChannels = channels => {
-        channels.length > 1
+        channels.length > 0
         && channels.map(channel => (
             <Menu.Item
                 key={channel.id}
