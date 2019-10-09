@@ -12,6 +12,10 @@ const Channels = () => {
         setModal(false)
     };
 
+    const openModal = () => {
+        setModal(true)
+    };
+
     const handleChannelName = (e) => {
         setChannelName(e.target.value);
     };
@@ -27,7 +31,7 @@ const Channels = () => {
                 <span>
                     <Icon name='exchange'/> CHANNELS
                 </span>{" "}
-                ({ channels.length }) <Icon name="add" />
+                ({ channels.length }) <Icon name="add" onClick={openModal} style={{ cursor: 'pointer' }} />
             </Menu.Item>
         </Menu.Menu>
 
@@ -58,7 +62,7 @@ const Channels = () => {
                 <Button color='green' inverted>
                     <Icon name='checkmark' /> Add
                 </Button>
-                <Button color='red' inverted>
+                <Button color='red' inverted onClick={closeModal}>
                     <Icon name='remove' /> Cancel
                 </Button>
             </Modal.Actions>
