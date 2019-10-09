@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { Menu, Icon, Modal, Form, Input, Button } from "semantic-ui-react";
 import firebase from '../../firebase'
+import { connect } from 'react-redux'
 
 
 const Channels = ({ currentUser }) => {
@@ -9,12 +10,9 @@ const Channels = ({ currentUser }) => {
     const [modal, setModal] = useState(false);
     const [channelName, setChannelName] = useState('');
     const [channelDetails, setChannelDetails] = useState('');
-    const [channelsRef, setChannelsRef] = useState(firebase.database().ref('channels'));
-    const [user, setUser] = useState(currentUser);
-
-    useEffect(() => {
-        addListeners();
-    }, []);
+    const channelsRef = firebase.database().ref('channels');
+    const user = currentUser;
+    const [barndon, setBarndon] = useState(false);
 
     const addListeners = () => {
         let loadedChannels = [];
@@ -23,8 +21,13 @@ const Channels = ({ currentUser }) => {
             loadedChannels.length > 0 &&
             console.log('loadedChannels', loadedChannels);
             setChannels(loadedChannels);
+            setBarndon(true);
         })
     };
+
+    useEffect(() => {
+        !barndon && addListeners();
+    }, [channels]);
 
     const closeModal = () => {
         setModal(false)
@@ -77,17 +80,19 @@ const Channels = ({ currentUser }) => {
     const isFormValid = () => channelName && channelDetails;
 
     const displayChannels = channels => {
-        channels.length > 0
-        && channels.map(channel => (
-            <Menu.Item
+        return channels.length > 0
+        && channels.map(channel => {
+            console.log('map run')
+            return (
+             <Menu.Item
                 key={channel.id}
                 onClick={() => console.log(channel)}
                 name={channel.name}
-                style={{ opacity: 0.7 }}
+                style={{ opacity: 1 }}
             >
                 # {channel.name}
             </Menu.Item>
-        ))
+            )})
     };
     console.log('channels', channels);
 
@@ -141,4 +146,9 @@ const Channels = ({ currentUser }) => {
         </React.Fragment>
     )
 };
-export default Channels;
+
+const mapStateToProps = (state) => ({
+    currentUser: state.user.currentUser
+});
+
+export default connect(mapStateToProps)(Channels);
