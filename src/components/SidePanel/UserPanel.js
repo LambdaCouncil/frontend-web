@@ -1,13 +1,20 @@
-import React from 'react'
-import firebase from '../../firebase'
-import { Grid, Header, Icon, Dropdown } from "semantic-ui-react";
+import React, { useState, useEffect } from 'react';
+import firebase from '../../firebase';
+import { Grid, Header, Icon, Dropdown, Image } from "semantic-ui-react";
+import { connect } from 'react-redux'
 
-const UserPanel = () => {
+const UserPanel = (props) => {
+
+    const [user, setUser] = useState(props.currentUser);
+
+    useEffect(() => {
+        setUser(props.currentUser)
+    }, []);
 
     const dropdownOptions = () => [
         {
             key: 'user',
-            text: <span>Signed in as <strong>User</strong></span>,
+            text: <span>Signed in as <strong>{user.displayName}</strong></span>,
             disabled: true
         },
         {
@@ -27,6 +34,11 @@ const UserPanel = () => {
           .then(() => console.log('Signed Out'))
     };
 
+    console.log(props.currentUser.displayName);
+    console.log(user.photoURL);
+
+
+
     return(
         <Grid style={{ background: '4c3c4c'}}>
               <Grid.Column>
@@ -36,16 +48,23 @@ const UserPanel = () => {
                           <Icon name="code" />
                           <Header.Content>LDSlack</Header.Content>
                       </Header>
+                      {/*User Dropdown*/}
+                      <Header style={{ padding: '0.25em' }} as='h4' inverted>
+                          <Dropdown trigger={
+                              <span>
+                              <Image src={user.photoURL} spaced='right' avatar />
+                                  {user.displayName}
+                          </span>
+                          } options={dropdownOptions()} />
+                      </Header>
                   </Grid.Row>
-                  {/*User Dropdown*/}
-                  <Header style={{ padding: '0.25em' }} as='h4' inverted>
-                      <Dropdown trigger={
-                          <span>User</span>
-                      } options={dropdownOptions()} />
-                  </Header>
               </Grid.Column>
         </Grid>
     )
 };
 
-export default UserPanel;
+const mapStateToProps = (state) => ({
+    currentUser: state.user.currentUser
+});
+
+export default connect(mapStateToProps)(UserPanel);
