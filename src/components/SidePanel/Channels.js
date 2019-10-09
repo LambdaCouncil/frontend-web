@@ -2,9 +2,10 @@ import React, { useState, useEffect } from 'react';
 import { Menu, Icon, Modal, Form, Input, Button } from "semantic-ui-react";
 import firebase from '../../firebase'
 import { connect } from 'react-redux'
+import { setCurrentChannel } from "../../actions";
 
 
-const Channels = ({ currentUser }) => {
+const Channels = ({ currentUser, setCurrentChannel }) => {
 
     const [channels, setChannels] = useState([]);
     const [modal, setModal] = useState(false);
@@ -13,6 +14,7 @@ const Channels = ({ currentUser }) => {
     const channelsRef = firebase.database().ref('channels');
     const user = currentUser;
     const [barndon, setBarndon] = useState(false);
+    const [firstLoad, setFirstLoad] = useState(true);
 
     const addListeners = () => {
         let loadedChannels = [];
@@ -21,8 +23,17 @@ const Channels = ({ currentUser }) => {
             loadedChannels.length > 0 &&
             console.log('loadedChannels', loadedChannels);
             setChannels(loadedChannels);
+            setFirstChannel();
             setBarndon(true);
         })
+    };
+
+    const setFirstChannel = () => {
+        const firstChannel = channels[0];
+        if (firstLoad && channels.length > 0) {
+            setCurrentChannel(firstChannel)
+      }
+        setFirstLoad(false)
     };
 
     useEffect(() => {
@@ -79,14 +90,19 @@ const Channels = ({ currentUser }) => {
 
     const isFormValid = () => channelName && channelDetails;
 
+    const changeChannel = channel => {
+        setCurrentChannel(channel)
+};
+
     const displayChannels = channels => {
         return channels.length > 0
         && channels.map(channel => {
-            console.log('map run')
+            console.log('map run');
             return (
              <Menu.Item
                 key={channel.id}
-                onClick={() => console.log(channel)}
+                onClick={() => changeChannel(channel)}
+                // onClick={() => console.log(channel)}
                 name={channel.name}
                 style={{ opacity: 1 }}
             >
@@ -140,9 +156,7 @@ const Channels = ({ currentUser }) => {
                     <Icon name='remove' /> Cancel
                 </Button>
             </Modal.Actions>
-
         </Modal>
-
         </React.Fragment>
     )
 };
@@ -151,4 +165,4 @@ const mapStateToProps = (state) => ({
     currentUser: state.user.currentUser
 });
 
-export default connect(mapStateToProps)(Channels);
+export default connect(mapStateToProps, { setCurrentChannel })(Channels);
