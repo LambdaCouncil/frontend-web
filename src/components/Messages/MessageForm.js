@@ -1,18 +1,70 @@
-import React from 'react';
-import { Segment, Button, Input } from "semantic-ui-react";
+import React, {useState} from 'react';
+import {Button, Input, Segment} from "semantic-ui-react";
+import firebase from '../../firebase'
 
-const MessageForm = () => {
+const MessageForm = ({ messagesRef, currentChannel, currentUser }) => {
+
+    const [message, setMessage] = useState('');
+    const [loading, setLoading] = useState(false);
+    const [channel, setChannel] = useState(currentChannel);
+    const [user, setUser] = useState(currentUser);
+    const [errors, setErrors] = useState([]);
+
+    const handleChange = (e) => {
+      setMessage(e.target.value)
+    };
+
+    const createMessage = () => {
+        return {
+            timestamp: firebase.database.ServerValue.TIMESTAMP,
+            user: {
+                id: user.uid,
+                name: user.displayName,
+                avatar: user.photoURL
+            },
+            content: message
+        };
+    };
+
+    const sendMessage = () => {
+        if (message) {
+            setLoading(true);
+            messagesRef
+                .child(channel.id)
+                .push()
+                .set(createMessage())
+                .then(() => {
+                    setLoading(false);
+                    setMessage('');
+                })
+                .catch(err => {
+                    console.log(err);
+                    setLoading(false);
+                    setErrors((errors => errors.concat(err)));
+                })
+        } else {
+            setErrors((errors => errors.concat({ message: 'Add a message' })));
+        }
+    };
+
     return (
-        <Segment className='mesage__form'>
+        <Segment className='message__form'>
             <Input fluid
                    name='message'
+                   onChange={handleChange}
                    style={{ marginBottom: '0.7em' }}
                    label={<Button icon={'add'}/>}
                    labelPosition='left'
+                   className={
+                       errors.some(error => error.includes("message"))
+                           ? 'error'
+                           : ''
+                   }
                    placeholder='Write your message'
             />
             <Button.Group icon widths='2'>
                 <Button
+                    onClick={sendMessage}
                     color='orange'
                     content='Add Reply'
                     labelPosition='left'
