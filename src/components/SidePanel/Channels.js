@@ -22,7 +22,7 @@ const Channels = ({ currentUser, setCurrentChannel }) => {
         channelsRef.on('child_added', snap => {
             loadedChannels.push(snap.val());
             loadedChannels.length > 0 &&
-            console.log('loadedChannels', loadedChannels);
+            // console.log('loadedChannels', loadedChannels);
             setChannels(loadedChannels);
             setFirstChannel();
             setBarndon(true);
@@ -96,7 +96,7 @@ const Channels = ({ currentUser, setCurrentChannel }) => {
     const displayChannels = channels => {
         return channels.length > 0
         && channels.map(channel => {
-            console.log('map run');
+            // console.log('map run');
             return (
              <Menu.Item
                 key={channel.id}
