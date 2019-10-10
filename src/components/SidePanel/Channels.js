@@ -29,9 +29,19 @@ const Channels = ({ currentUser, setCurrentChannel }) => {
         })
     };
 
+    const removeListeners = () => {
+      channelsRef.off();
+    };
+
     useEffect(() => {
         !barndon && addListeners();
     }, [channels]);
+
+    useEffect(() => {
+        return () => {
+            removeListeners();
+        }
+    }, []);
 
     const closeModal = () => {
         setModal(false)
