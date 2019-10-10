@@ -17,25 +17,22 @@ const Messages = ( {currentChannel, currentUser} ) => {
 
     useEffect(() => {
         if (!barndon && (channel && user)) {
-            addListeners(channel.id);
+            addMessageListener(channel.id);
         }
     },[messages.length]);
-
-    const addListeners = channelId => {
-        addMessageListener(channelId)
-    };
 
 
 
     const addMessageListener = channelId => {
         let loadedMessages = [];
-        messagesRef.child(channelId).on('child_added', snap => {
-            loadedMessages.push(snap.val());
+            messagesRef.child(channelId).on('child_added', async snap => {
+            await loadedMessages.push(snap.val());
+            // messages.length > 0 &&
             setMessages(loadedMessages);
             // console.log('loadedMessages', loadedMessages);
-            // console.log('messages', messages);
+            console.log('messages', messages);
             setMessagesLoading(false);
-            setBarndon(true)
+            // setBarndon(true)
         })
     };
 
