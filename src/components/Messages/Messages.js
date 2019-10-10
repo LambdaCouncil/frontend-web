@@ -13,6 +13,8 @@ const Messages = ( {currentChannel, currentUser} ) => {
     const [message, setMessage] = useState('');
     const [messages, setMessages] = useState([]);
     const [messagesLoading, setMessagesLoading] = useState(true);
+    // The Barndon Constant
+    // 2019 Colorized
     const [barndon, setBarndon] = useState(false);
 
     useEffect(() => {
@@ -32,7 +34,6 @@ const Messages = ( {currentChannel, currentUser} ) => {
             // console.log('loadedMessages', loadedMessages);
             console.log('messages', messages);
             setMessagesLoading(false);
-            // setBarndon(true)
         })
     };
 
