@@ -16,22 +16,26 @@ const Messages = ( {currentChannel, currentUser} ) => {
     const [barndon, setBarndon] = useState(false);
 
     useEffect(() => {
-        if (channel && user) {
+        if (!barndon && (channel && user)) {
             addListeners(channel.id);
         }
-    },[]);
+    },[messages.length]);
 
     const addListeners = channelId => {
         addMessageListener(channelId)
     };
+
+
 
     const addMessageListener = channelId => {
         let loadedMessages = [];
         messagesRef.child(channelId).on('child_added', snap => {
             loadedMessages.push(snap.val());
             setMessages(loadedMessages);
-            console.log('messages', messages);
+            // console.log('loadedMessages', loadedMessages);
+            // console.log('messages', messages);
             setMessagesLoading(false);
+            setBarndon(true)
         })
     };
 
@@ -48,10 +52,15 @@ const Messages = ( {currentChannel, currentUser} ) => {
     return (
         <React.Fragment>
             <MessagesHeader />
-
             <Segment>
                 <Comment.Group className='messages'>
-                    {displayMessages(messages)}
+                    {/*{displayMessages(messages)}*/}
+                    { messages.map(message => (
+                        <Message message={message}
+                                 user={message.user}
+                                 key={message.timeStamp} />
+                        ))}
+
                 </Comment.Group>
             </Segment>
             <MessageForm

@@ -8,13 +8,16 @@ const isOwnMessage = (message, user) => {
 
 const timeFromNow = timestamp => moment(timestamp).fromNow();
 
-const Message = ({ message, user }) => {
+const Message = ({message, user, key}) => {
+
+
     return (
+
         <Comment>
-            <Comment.Avatar src={message.user.avatar}/>
+            <Comment.Avatar src={user.avatar}/>
             <Comment.Content className={isOwnMessage(message, user)}>
                 <Comment.Author as='a'>{message.user.name}</Comment.Author>
-                <Comment.MetaData>{timeFromNow(message.timestamp)}</Comment.MetaData>
+                {/*<Comment.MetaData>{timeFromNow(message.timestamp)}</Comment.MetaData>*/}
                 <Comment.Text>{message.content}</Comment.Text>
             </Comment.Content>
         </Comment>
