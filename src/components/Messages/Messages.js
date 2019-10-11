@@ -13,6 +13,10 @@ const Messages = ({currentChannel, currentUser}) => {
   const [message, setMessage] = useState('');
   const [messages, setMessages] = useState([]);
   const [messagesLoading, setMessagesLoading] = useState(true);
+  const [numUniqueUsers, setNumUniqueUsers] = useState('');
+  const [searchTerm, setSearchTerm] = useState('');
+  const [searchLoading, setSearchLoading] = useState(false);
+  const [searchResults, setSearchResults] = useState([]);
   // The Barndon Constant
   // 2019 Colorized
   const [barndon, setBarndon] = useState(false);
@@ -33,7 +37,37 @@ const Messages = ({currentChannel, currentUser}) => {
       // console.log('loadedMessages', loadedMessages);
       // console.log('messages', messages);
       setMessagesLoading(false);
-    })
+    });
+    countUsers(loadedMessages);
+  };
+
+  const handleSearchChange = e => {
+    setSearchTerm(e.target.value);
+    setSearchLoading(true)
+  };
+
+  const handleSearchMessages = () => {
+    const channelMessages = [...messages];
+    const regex = new RegExp(searchTerm, 'gi');
+    const searchResults = channelMessages.reduce((acc, message) => {
+      if (message.content && message.content.match(regex)) {
+        acc.push(message);
+      }
+      return acc
+    }, []);
+    setSearchResults(searchResults)
+  };
+
+  const countUsers = (messages) => {
+    const uniqueUsers = messages.reduce((acc, message) => {
+      if (!acc.includes(message.user.name)) {
+        acc.push(message.user.name);
+      }
+      return acc;
+    }, []);
+    const plural = uniqueUsers.length > 1 || uniqueUsers.length === 0;
+    const numUniqueUsers = `${uniqueUsers.length} user${plural ? 's' : ''}`;
+    setNumUniqueUsers(numUniqueUsers);
   };
 
   const displayMessages = messages => {
@@ -46,9 +80,15 @@ const Messages = ({currentChannel, currentUser}) => {
     ))
   };
 
+  const displayChannelName = channel => channel ? `#${channel.name}` : '';
+
   return (
     <React.Fragment>
-      <MessagesHeader/>
+      <MessagesHeader
+        channelName={displayChannelName(channel)}
+        numOfUsers={numUniqueUsers}
+        handleSearchChange={handleSearchChange}
+      />
       <Segment>
         <Comment.Group className='messages'>
           {/*{displayMessages(messages)}*/}
@@ -57,7 +97,6 @@ const Messages = ({currentChannel, currentUser}) => {
                      user={message.user}
                      key={message.timeStamp}/>
           ))}
-
         </Comment.Group>
       </Segment>
       <MessageForm
