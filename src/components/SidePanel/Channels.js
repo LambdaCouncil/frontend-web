@@ -111,11 +111,12 @@ const Channels = ({ currentUser, setCurrentChannel }) => {
             )})
     };
 
-    const setFirstChannel = () => {
+    const setFirstChannel = async () => {
         const firstChannel = channels[0];
-        if (firstLoad && channels.length > 0) {
-            setCurrentChannel(firstChannel);
-            setActiveChannel(firstChannel)
+        if (firstLoad && channels.length) {
+            await setCurrentChannel(firstChannel);
+            await setActiveChannel(firstChannel.id);
+            console.log('firstChannel', firstChannel)
         }
         setFirstLoad(false)
     };

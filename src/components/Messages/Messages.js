@@ -32,7 +32,7 @@ const Messages = ( {currentChannel, currentUser} ) => {
             // messages.length > 0 &&
             setMessages(loadedMessages);
             // console.log('loadedMessages', loadedMessages);
-            console.log('messages', messages);
+            // console.log('messages', messages);
             setMessagesLoading(false);
         })
     };
