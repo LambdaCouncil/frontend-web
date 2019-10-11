@@ -61,7 +61,7 @@ const Channels = ({ currentUser, setCurrentChannel }) => {
         count: 0
       })
     }
-    setNotifications(notifications);
+    setNotifications();
   };
   console.log('notifications', notifications);
 
