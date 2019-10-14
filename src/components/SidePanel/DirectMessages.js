@@ -1,93 +1,98 @@
-import React, { useState, useEffect } from 'react';
+import React from "react";
+import firebase from "../../firebase";
 import { Menu, Icon } from "semantic-ui-react";
-import firebase from '../../firebase'
 
-const DirectMessages = ({currentUser}) => {
+class DirectMessages extends React.Component {
+  state = {
+    user: this.props.currentUser,
+    users: [],
+    usersRef: firebase.database().ref("users"),
+    connectedRef: firebase.database().ref(".info/connected"),
+    presenceRef: firebase.database().ref("presence")
+  };
 
-  const [users, setUsers] = useState([]);
-  const user = currentUser;
-  const usersRef = firebase.database().ref('users');
-  const connectedRef = firebase.database().ref('.info/connected');
-  const presenceRef = firebase.database().ref('presence');
-  console.log('user', user);
-
-  useEffect(() => {
-    if (user) {
-      addListeners(user.uid)
+  componentDidMount() {
+    if (this.state.user) {
+      this.addListeners(this.state.user.uid);
     }
-  }, []);
+  }
 
-
-  const addListeners = currentUserUid => {
+  addListeners = currentUserUid => {
     let loadedUsers = [];
-    usersRef.on('child_added', snap => {
+    this.state.usersRef.on("child_added", snap => {
       if (currentUserUid !== snap.key) {
         let user = snap.val();
-        user['uid'] = snap.key;
-        user['status'] = 'offline';
+        user["uid"] = snap.key;
+        user["status"] = "offline";
         loadedUsers.push(user);
-        setUsers(loadedUsers);
+        this.setState({ users: loadedUsers });
       }
     });
-    connectedRef.on('value', snap => {
+
+    this.state.connectedRef.on("value", snap => {
       if (snap.val() === true) {
-        const ref = presenceRef.child(currentUserUid);
+        const ref = this.state.presenceRef.child(currentUserUid);
         ref.set(true);
         ref.onDisconnect().remove(err => {
           if (err !== null) {
-            console.log(err);
+            console.error(err);
           }
-        })
+        });
       }
     });
-    presenceRef.on('child_added', snap => {
+
+    this.state.presenceRef.on("child_added", snap => {
       if (currentUserUid !== snap.key) {
-        addStatusToUser(snap.key)
+        this.addStatusToUser(snap.key);
       }
     });
-    presenceRef.on('child_removed', snap => {
+
+    this.state.presenceRef.on("child_removed", snap => {
       if (currentUserUid !== snap.key) {
-        addStatusToUser(snap.key, false)
+        this.addStatusToUser(snap.key, false);
       }
-    })
+    });
   };
 
-  const addStatusToUser = (userId, connected = true) => {
-    const updatedUsers = users.reduce((acc, user) => {
+  addStatusToUser = (userId, connected = true) => {
+    const updatedUsers = this.state.users.reduce((acc, user) => {
       if (user.uid === userId) {
-        user['status'] = `${connected ? 'online' : 'offline'}`;
-        return acc.concat(user);
+        user["status"] = `${connected ? "online" : "offline"}`;
       }
+      return acc.concat(user);
     }, []);
-    setUsers(updatedUsers)
+    this.setState({ users: updatedUsers });
   };
 
+  isUserOnline = user => user.status === "online";
 
-  const isUserOnline = user => user.status === 'online';
+  render() {
+    const { users } = this.state;
 
-  return (
-    <Menu.Menu className='menu'>
-      <Menu.Item>
-        <span>
-          <Icon name='mail'/> DIRECT MESSAGES
-        </span>{' '}
-        ({ users.length })
-      </Menu.Item>
-
-      {users.map(user => (
-        <Menu.Item
-        key={user.uid}
-        onClick={() => console.log(user)}
-        style={{ opacity: .07, fontStyle: 'italic' }}>
-          <Icon
-          name='circle'
-          color={isUserOnline(user) ? 'green' : 'red'}
-          />
-          @ {user.name}
+    return (
+      <Menu.Menu className="menu">
+        <Menu.Item>
+          <span>
+            <Icon name="mail" /> DIRECT MESSAGES
+          </span>{" "}
+          ({users.length})
         </Menu.Item>
-      ))}
-    </Menu.Menu>
-  );
-};
+        {users.map(user => (
+          <Menu.Item
+            key={user.uid}
+            onClick={() => console.log(user)}
+            style={{ opacity: 0.7, fontStyle: "italic" }}
+          >
+            <Icon
+              name="circle"
+              color={this.isUserOnline(user) ? "green" : "red"}
+            />
+            @ {user.name}
+          </Menu.Item>
+        ))}
+      </Menu.Menu>
+    );
+  }
+}
 
 export default DirectMessages;
