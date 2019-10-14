@@ -3,6 +3,8 @@ import {Menu} from "semantic-ui-react";
 import UserPanel from "./UserPanel";
 import Channels from "./Channels";
 import DirectMessages from "./DirectMessages";
+import {connect} from "react-redux";
+import {setCurrentChannel} from "../../actions";
 
 const SidePanel = (props) => {
   const {currentUser} = props;
@@ -22,4 +24,8 @@ const SidePanel = (props) => {
   )
 };
 
-export default SidePanel;
+const mapStateToProps = (state) => ({
+  currentUser: state.user.currentUser
+});
+
+export default connect(mapStateToProps)(SidePanel);

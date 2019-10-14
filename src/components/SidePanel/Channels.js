@@ -63,7 +63,7 @@ const Channels = ({ currentUser, setCurrentChannel }) => {
     }
     setNotifications();
   };
-  console.log('notifications', notifications);
+  // console.log('notifications', notifications);
 
   const removeListeners = () => {
     channelsRef.off();
@@ -152,7 +152,7 @@ const Channels = ({ currentUser, setCurrentChannel }) => {
     if (firstLoad && channels.length) {
       await setCurrentChannel(firstChannel);
       await setActiveChannel(firstChannel.id);
-      console.log('firstChannel', firstChannel)
+      // console.log('firstChannel', firstChannel)
     }
     setFirstLoad(false)
   };

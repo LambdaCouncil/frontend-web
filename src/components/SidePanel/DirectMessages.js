@@ -6,6 +6,7 @@ const DirectMessages = ({currentUser}) => {
 
   const [users, setUsers] = useState([]);
   const user = currentUser;
+  console.log('user', user);
 
   // useEffect(() => {
   //   addListeners(user.uid)
