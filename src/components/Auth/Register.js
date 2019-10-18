@@ -34,11 +34,11 @@ function Register() {
   const isFormValid = () => {
     let error;
     if (isFormEmpty(userName, email, password, passwordConfirm)) {
-      error = {message: "Moroni needs all fields"};
+      error = {message: "All Fields Required"};
       setErrors((errors => errors.concat(error)));
       return false;
     } else if (!isPasswordValid(password, passwordConfirm)) {
-      error = {message: 'Password not Joseph Smith. Why?'};
+      error = {message: 'Passwords much match'};
       setErrors((errors => errors.concat(error)));
       return false;
     } else {
@@ -123,7 +123,7 @@ function Register() {
                 textAlign="center">
           <Icon name="puzzle piece"
                 color="green"/>
-          Register for LDSlack
+          Register for Councils
         </Header>
         <Form onSubmit={handleSubmit} size="large">
           <Segment stacked>
@@ -164,11 +164,11 @@ function Register() {
         </Form>
         {errors.length > 0 && (
           <Message error>
-            <h3>This is where the errors go</h3>
+            <h3>Errors</h3>
             {displayErrors(errors)}
           </Message>
         )}
-        <Message>Already have the undapants? <Link to="/login">Login</Link></Message>
+        <Message> <Link to="/login">Login</Link></Message>
       </Grid.Column>
     </Grid>
   )

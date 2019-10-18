@@ -62,7 +62,7 @@ function Login() {
                 textAlign="center">
           <Icon name="code branch"
                 color="green"/>
-          Login for LDSlack
+          Login to Councils
         </Header>
         <Form onSubmit={handleSubmit} size="large">
           <Segment stacked>
@@ -83,7 +83,7 @@ function Login() {
             <Button color="green" fluid size="large">Submit</Button>
           </Segment>
         </Form>
-        <Message>Need the undapants? <Link to="/register">Register</Link></Message>
+        <Message> <Link to="/register">Register</Link></Message>
       </Grid.Column>
     </Grid>
   )

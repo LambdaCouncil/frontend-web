@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { Menu, Icon, Modal, Form, Input, Button } from "semantic-ui-react";
 import firebase from '../../firebase'
 import { connect } from 'react-redux'
-import { setCurrentChannel } from "../../actions";
+import {setCurrentChannel, setPrivateChannel} from "../../actions";
 
 
 const Channels = ({ currentUser, setCurrentChannel }) => {
@@ -161,6 +161,7 @@ const Channels = ({ currentUser, setCurrentChannel }) => {
     setActiveChannel(channel.id);
     setCurrentChannel(channel);
     setChannel(channel);
+    setPrivateChannel
   };
 
 
