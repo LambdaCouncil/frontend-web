@@ -346,6 +346,7 @@
 [1014/151753.667:ERROR:crash_report_database_win.cc(469)] failed to stat report
 [1014/151753.668:ERROR:crash_report_database_win.cc(469)] failed to stat report
 [1014/170603.561:ERROR:crash_report_database_win.cc(469)] failed to stat report
+<<<<<<< HEAD
 [1015/115713.907:ERROR:crash_report_database_win.cc(469)] failed to stat report
 [1015/115713.958:ERROR:crash_report_database_win.cc(469)] failed to stat report
 [1015/115713.958:ERROR:crash_report_database_win.cc(469)] failed to stat report
@@ -366,3 +367,23 @@
 [1018/131459.853:ERROR:crash_report_database_win.cc(469)] failed to stat report
 [1018/131459.853:ERROR:crash_report_database_win.cc(469)] failed to stat report
 [1018/131459.853:ERROR:crash_report_database_win.cc(469)] failed to stat report
+=======
+[1015/124720.488:ERROR:crash_report_database_win.cc(469)] failed to stat report
+[1015/125720.491:ERROR:crash_report_database_win.cc(469)] failed to stat report
+[1015/125720.494:ERROR:crash_report_database_win.cc(469)] failed to stat report
+[1015/130220.497:ERROR:crash_report_database_win.cc(469)] failed to stat report
+[1015/131121.568:ERROR:crash_report_database_win.cc(469)] failed to stat report
+[1015/131720.622:ERROR:crash_report_database_win.cc(469)] failed to stat report
+[1015/133220.716:ERROR:crash_report_database_win.cc(469)] failed to stat report
+[1015/134540.341:ERROR:crash_report_database_win.cc(469)] failed to stat report
+[1015/134720.787:ERROR:crash_report_database_win.cc(469)] failed to stat report
+[1015/140220.852:ERROR:crash_report_database_win.cc(469)] failed to stat report
+[1015/155730.629:ERROR:crash_report_database_win.cc(469)] failed to stat report
+[1015/161230.630:ERROR:crash_report_database_win.cc(469)] failed to stat report
+[1015/162730.632:ERROR:crash_report_database_win.cc(469)] failed to stat report
+[1015/164230.634:ERROR:crash_report_database_win.cc(469)] failed to stat report
+[1015/164616.072:ERROR:crash_report_database_win.cc(469)] failed to stat report
+[1015/165730.636:ERROR:crash_report_database_win.cc(469)] failed to stat report
+[1015/171230.638:ERROR:crash_report_database_win.cc(469)] failed to stat report
+[1015/172730.641:ERROR:crash_report_database_win.cc(469)] failed to stat report
+>>>>>>> c0e0ea2ab4fa2db92ac288188ee82513fd4e43e9

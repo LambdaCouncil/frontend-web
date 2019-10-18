@@ -5,7 +5,7 @@ import { connect } from 'react-redux'
 import {setCurrentChannel, setPrivateChannel} from "../../actions";
 
 
-const Channels = ({ currentUser, setCurrentChannel }) => {
+const Channels = ({ currentUser, setCurrentChannel, setPrivateChannel }) => {
 
   const [channels, setChannels] = useState([]);
   const [channel, setChannel] = useState(null);
@@ -161,7 +161,7 @@ const Channels = ({ currentUser, setCurrentChannel }) => {
     setActiveChannel(channel.id);
     setCurrentChannel(channel);
     setChannel(channel);
-    setPrivateChannel
+    setPrivateChannel(false);
   };
 
 
@@ -218,4 +218,4 @@ const mapStateToProps = (state) => ({
   currentUser: state.user.currentUser
 });
 
-export default connect(mapStateToProps, { setCurrentChannel })(Channels);
+export default connect(mapStateToProps, { setCurrentChannel, setPrivateChannel })(Channels);
