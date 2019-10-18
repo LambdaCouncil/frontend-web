@@ -121,7 +121,7 @@ const UserPanel = (props) => {
           {/*App Header*/}
           <Header inverted floated="left" as="h2">
             <Icon name="code"/>
-            <Header.Content>LDSlack</Header.Content>
+            <Header.Content>Councils</Header.Content>
           </Header>
           {/*User Dropdown*/}
           <Header style={{padding: '0.25em'}} as='h4' inverted>
